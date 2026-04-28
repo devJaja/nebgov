@@ -8,6 +8,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import { useWallet } from "../../lib/wallet-context";
 import { TreasuryClient, type TreasurySpendingCap, type TreasuryTx } from "../../lib/treasury-client";
+import { TreasuryBalanceSkeleton } from "../../components/ui/TreasuryBalanceSkeleton";
 import {
   type CalldataArgKind,
   type CalldataArgRow,
@@ -360,20 +361,24 @@ export default function TreasuryPage() {
       )}
 
       {/* Balances */}
-      <div className="grid grid-cols-2 gap-4 mb-8">
-        <div className="bg-white border border-gray-200 rounded-xl p-6">
-          <p className="text-sm text-gray-500">USDC Balance</p>
-          <p className="text-2xl font-bold mt-1">
-            {loading ? "Loading…" : `${usdcBalance} USDC`}
-          </p>
+      {loading ? (
+        <TreasuryBalanceSkeleton />
+      ) : (
+        <div className="grid grid-cols-2 gap-4 mb-8">
+          <div className="bg-white border border-gray-200 rounded-xl p-6">
+            <p className="text-sm text-gray-500">USDC Balance</p>
+            <p className="text-2xl font-bold mt-1">
+              {`${usdcBalance} USDC`}
+            </p>
+          </div>
+          <div className="bg-white border border-gray-200 rounded-xl p-6">
+            <p className="text-sm text-gray-500">XLM Balance</p>
+            <p className="text-2xl font-bold mt-1">
+              {`${xlmBalance} XLM`}
+            </p>
+          </div>
         </div>
-        <div className="bg-white border border-gray-200 rounded-xl p-6">
-          <p className="text-sm text-gray-500">XLM Balance</p>
-          <p className="text-2xl font-bold mt-1">
-            {loading ? "Loading…" : `${xlmBalance} XLM`}
-          </p>
-        </div>
-      </div>
+      )}
 
       <div className="mb-8 bg-white border border-gray-200 rounded-xl p-6">
         <h2 className="text-lg font-semibold text-gray-900 mb-1">Multisig configuration</h2>

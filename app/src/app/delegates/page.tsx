@@ -5,15 +5,16 @@ import Link from "next/link";
 import { VotesClient, type TopDelegate, type Network } from "@nebgov/sdk";
 import { useWallet } from "../../lib/wallet-context";
 import { DelegateModal } from "../../components/DelegateModal";
+import { Skeleton } from "../../components/ui/Skeleton";
 
 function DelegateSkeleton() {
   return (
-    <tr className="animate-pulse">
-      <td className="py-4 px-4"><div className="h-4 bg-gray-200 rounded w-6"></div></td>
-      <td className="py-4 px-4"><div className="h-4 bg-gray-200 rounded w-32"></div></td>
-      <td className="py-4 px-4"><div className="h-4 bg-gray-200 rounded w-20"></div></td>
-      <td className="py-4 px-4"><div className="h-2 bg-gray-200 rounded w-full"></div></td>
-      <td className="py-4 px-4"><div className="h-8 bg-gray-200 rounded w-20"></div></td>
+    <tr>
+      <td className="py-4 px-4"><Skeleton className="h-4 w-6" /></td>
+      <td className="py-4 px-4"><Skeleton className="h-4 w-32" /></td>
+      <td className="py-4 px-4"><Skeleton className="h-4 w-20" /></td>
+      <td className="py-4 px-4"><Skeleton className="h-2 w-full" /></td>
+      <td className="py-4 px-4"><Skeleton className="h-8 w-20" /></td>
     </tr>
   );
 }

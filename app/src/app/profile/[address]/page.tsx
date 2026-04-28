@@ -50,7 +50,7 @@ interface ProfileData {
 }
 
 function Skeleton({ className }: { className?: string }) {
-  return <div className={`bg-gray-200 animate-pulse rounded ${className}`} />;
+  return <div className={`bg-gray-200 dark:bg-gray-700 animate-pulse rounded ${className}`} />;
 }
 
 function VoterProfilePageContent() {

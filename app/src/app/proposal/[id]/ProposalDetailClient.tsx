@@ -21,6 +21,7 @@ import {
 } from "recharts";
 
 import { useTheme } from "../../../hooks/useTheme";
+import { ProposalDetailSkeleton } from "../../../components/ui/ProposalDetailSkeleton";
 
 interface Props {
   params: { id: string };
@@ -334,12 +335,7 @@ export default function ProposalDetailClient({ params }: Props) {
   }
 
   if (loading) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] text-gray-500">
-        <Loader2 className="w-8 h-8 animate-spin mb-4" />
-        <p>Loading proposal data...</p>
-      </div>
-    );
+    return <ProposalDetailSkeleton />;
   }
 
   return (

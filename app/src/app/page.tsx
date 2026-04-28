@@ -8,6 +8,7 @@ import { useState, useEffect, useMemo, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 import { GovernorClient, ProposalState, Network } from "@nebgov/sdk";
+import { ProposalCardSkeleton } from "../components/ui/ProposalCardSkeleton";
 
 interface ProposalSummary {
   id: bigint;
@@ -33,24 +34,6 @@ const ALL_STATES = Object.values(ProposalState);
 type SortOption = "newest" | "most-votes" | "ending-soon";
 
 const PROPOSALS_PER_PAGE = 10;
-
-function ProposalSkeleton() {
-  return (
-    <div className="block bg-white border border-gray-200 rounded-xl p-6 animate-pulse">
-      <div className="flex items-start justify-between">
-        <div className="flex-1 min-w-0">
-          <div className="h-3 bg-gray-200 rounded w-24 mb-2"></div>
-          <div className="h-5 bg-gray-200 rounded w-3/4 mb-3"></div>
-          <div className="flex items-center gap-4">
-            <div className="h-4 bg-gray-200 rounded w-20"></div>
-            <div className="h-4 bg-gray-200 rounded w-20"></div>
-          </div>
-        </div>
-        <div className="ml-4 h-6 bg-gray-200 rounded-full w-20"></div>
-      </div>
-    </div>
-  );
-}
 
 function ProposalsPageInner() {
   const router = useRouter();
@@ -302,8 +285,8 @@ function ProposalsPageInner() {
       {/* Loading skeleton */}
       {loading && (
         <div className="space-y-4">
-          {Array.from({ length: 3 }).map((_, i) => (
-            <ProposalSkeleton key={i} />
+          {Array.from({ length: 10 }).map((_, i) => (
+            <ProposalCardSkeleton key={i} />
           ))}
         </div>
       )}
@@ -397,11 +380,8 @@ export default function ProposalsPage() {
       fallback={
         <div className="max-w-4xl mx-auto px-4 py-8">
           <div className="space-y-4">
-            {Array.from({ length: 3 }).map((_, i) => (
-              <div key={i} className="block bg-white border border-gray-200 rounded-xl p-6 animate-pulse">
-                <div className="h-5 bg-gray-200 rounded w-3/4 mb-3"></div>
-                <div className="h-4 bg-gray-200 rounded w-1/2"></div>
-              </div>
+            {Array.from({ length: 10 }).map((_, i) => (
+              <ProposalCardSkeleton key={i} />
             ))}
           </div>
         </div>

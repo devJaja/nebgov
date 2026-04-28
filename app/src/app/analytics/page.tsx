@@ -19,14 +19,11 @@ import {
 import { useTheme } from "../../hooks/useTheme";
 import { useEffect, useMemo, useState } from "react";
 import { Network, VotesClient } from "@nebgov/sdk";
+import { Skeleton } from "../../components/ui/Skeleton";
 
 const COLORS = ["#60a5fa", "#34d399", "#f97316", "#f87171", "#a78bfa"];
 
 type TimeRange = "7d" | "30d" | "all";
-
-function Skeleton({ className }: { className?: string }) {
-  return <div className={`bg-gray-200 dark:bg-gray-700 animate-pulse rounded ${className ?? ""}`} />;
-}
 
 export default function AnalyticsPage() {
   const { theme } = useTheme();
