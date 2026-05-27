@@ -10,6 +10,7 @@ mod integration;
 
 use crate::{GovernorContract, GovernorContractClient, GovernorSettings, VoteType};
 use soroban_sdk::{
+    contract, contractimpl,
     testutils::{Address as _, Events, MockAuth, MockAuthInvoke},
     Address, BytesN, Env, IntoVal, Symbol, TryIntoVal,
 };

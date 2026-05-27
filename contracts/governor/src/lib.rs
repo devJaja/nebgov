@@ -339,11 +339,6 @@ impl GovernorContract {
         let current = env.ledger().sequence();
         
         // Get configuration from storage
-        let voting_period: u32 = env
-            .storage()
-            .instance()
-            .get(&DataKey::VotingPeriod)
-            .unwrap_or(1000);
         let grace_period: u32 = env
             .storage()
             .instance()
@@ -367,11 +362,7 @@ impl GovernorContract {
         };
         
         // Calculate remaining ledgers until proposal end
-        let ledgers_until_end = if current < proposal.end_ledger {
-            proposal.end_ledger - current
-        } else {
-            0
-        };
+        let ledgers_until_end = proposal.end_ledger.saturating_sub(current);
         
         // Total TTL: remaining voting period + grace period + timelock operations + buffer
         // The buffer ensures we don't expire even if timing is tight
@@ -3244,6 +3235,13 @@ mod test {
         let proposal = client.get_proposal(&proposal_id);
         assert_eq!(proposal.votes_for, 1_000_000);
         assert!(!proposal.executed);
+    }
+}
+
+#[contractimpl]
+impl GovernorContract {
+    pub fn get_proposal(env: Env, proposal_id: u64) -> Proposal {
+        Self::must_get_proposal(&env, proposal_id)
     }
 }
 
