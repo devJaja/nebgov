@@ -161,6 +161,10 @@ router.get(
     const competitionId = Number((req.params as Record<string, string>).id);
     const userId = req.userId;
 
+    if (!userId) {
+      return res.status(401).json({ error: "Authentication required" });
+    }
+
     try {
       const result = await pool.query(
         `SELECT c.*, COUNT(cp.id) AS participant_count
@@ -178,13 +182,11 @@ router.get(
       const competition = result.rows[0];
       const response: Record<string, unknown> = { competition };
 
-      if (userId) {
-        const participantResult = await pool.query(
-          "SELECT id FROM competition_participants WHERE competition_id = $1 AND user_id = $2",
-          [competitionId, userId],
-        );
-        response.is_joined = participantResult.rows.length > 0;
-      }
+      const participantResult = await pool.query(
+        "SELECT id FROM competition_participants WHERE competition_id = $1 AND user_id = $2",
+        [competitionId, userId],
+      );
+      response.is_joined = participantResult.rows.length > 0;
 
       res.json(response);
     } catch (error) {
