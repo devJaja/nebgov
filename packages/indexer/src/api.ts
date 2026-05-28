@@ -521,7 +521,13 @@ export function createApp(server: SorobanRpc.Server): express.Application {
     "/profile/:address",
     strictLimiter,
     async (req: Request, res: Response): Promise<void> => {
-      const { address } = req.params;
+      const normalizedAddress = req.params.address.trim().toUpperCase();
+      if (!isValidStellarPublicKey(normalizedAddress)) {
+        res.status(400).json({ error: INVALID_ADDRESS_ERROR });
+        return;
+      }
+
+      const address = normalizedAddress;
       const key = `profile:${address}`;
       try {
         const data = await cached(key, TTL.profile, async () => {
