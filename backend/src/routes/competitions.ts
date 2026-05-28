@@ -159,6 +159,7 @@ router.get(
   validate({ params: getCompetitionSchema }),
   async (req: AuthRequest, res: Response) => {
     const competitionId = Number((req.params as Record<string, string>).id);
+    const userId = req.userId;
 
     try {
       const result = await pool.query(
@@ -177,10 +178,10 @@ router.get(
       const competition = result.rows[0];
       const response: Record<string, unknown> = { competition };
 
-      if (req.userId) {
+      if (userId) {
         const participantResult = await pool.query(
           "SELECT id FROM competition_participants WHERE competition_id = $1 AND user_id = $2",
-          [competitionId, req.userId],
+          [competitionId, userId],
         );
         response.is_joined = participantResult.rows.length > 0;
       }
